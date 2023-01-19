@@ -47,7 +47,7 @@ func keyControl($isTask, $task, $key)
 			keyPress($isTask, $task, $key)
 		case 'lobby-exit'
 			keyPress($isTask, $task, $key)
-		case 'item-use'
+		case 'item-guide'
 			keyPress($isTask, $task, $key)
 		case 'item-change'
 			keyPress($isTask, $task, $key)
