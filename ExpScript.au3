@@ -31,7 +31,7 @@ func checkImage()
 	;~ basic options
 	keyControl($lobby, 'lobby', 'R')
 	keyControl($lobbyExit, 'lobby-exit', 'ESC')
-	keyControl($itemGuide, 'item-use', 'Q')
+	keyControl($itemGuide, 'item-guide', 'Q')
 	keyControl($itemChange, 'item-change', 'W')
 	keyControl($itemAtk, 'item-atk', 'Q')
 	keyControl($itemMagnet, 'item-magnet', 'Q')
