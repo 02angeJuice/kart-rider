@@ -15,33 +15,41 @@ while Sleep(100)
 wend
 
 func checkImage()
-	local $lobby = _ImageSearch('img/lobby.png', 0, $x, $y, 0)
-	local $lobbyExit = _ImageSearch('img/lobby-exit.png', 0, $x, $y, 0)
-	local $itemGuide = _ImageSearch('img/item-guide.png', 0, $x, $y, 0)
-	local $itemChange = _ImageSearch('img/item-change.png', 0, $x, $y, 0)
+	local $modeItem = imgSearch('mode-item')
+	local $modeSpeed = imgSearch('mode-speed')
+	local $lobby = imgSearch('lobby')
+	local $lobbyExit = imgSearch('lobby-exit')
+	local $itemGuide = imgSearch('item-guide')
+	local $itemChange = imgSearch('item-change')
+	local $reset = imgSearch('reset')
 
-	local $itemAtk = _ImageSearch('img/item-atk.png', 0, $x, $y, 0)
-	local $itemMagnet = _ImageSearch('img/item-magnet.png', 0, $x, $y, 0)
-
-	local $slotAtk = _ImageSearch('img/slot-atk.png', 0, $x, $y, 0)
-	local $slotNitro = _ImageSearch('img/slot-nitro.png', 0, $x, $y, 0)
-	local $runLeft = _ImageSearch('img/run-left.png', 0, $x, $y, 0)
-	local $runRight = _ImageSearch('img/run-right.png', 0, $x, $y, 0)
+	local $itemAtk = imgSearch('item-atk')
+	local $itemMagnet = imgSearch('item-magnet')
+	local $slotAtk = imgSearch('slot-atk')
+	local $slotNitro = imgSearch('slot-nitro')
+	local $runLeft = imgSearch('run-left')
+	local $runRight = imgSearch('run-right')
 
 	;~ basic options
-	keyControl($lobby, 'lobby', 'R')
-	keyControl($lobbyExit, 'lobby-exit', 'ESC')
-	keyControl($itemGuide, 'item-guide', 'Q')
-	keyControl($itemChange, 'item-change', 'W')
-	keyControl($itemAtk, 'item-atk', 'Q')
-	keyControl($itemMagnet, 'item-magnet', 'Q')
-	keyControl($slotAtk, 'slot-atk', 'W')
-	keyControl($slotNitro, 'slot-nitro', 'W')
-	keyControl($runLeft, 'run-left', 'LEFT')
-	keyControl($runRight, 'run-right', 'RIGHT')
+	$isLobby = keyControl($lobby[0], $lobby[1], 'R')
+	;~ if $isLobby == 1 then
+	;~ 	$isItemMode = keyControl($modeItem[0], $modeItem[1])
+	;~ 	$isSpeedMode = keyControl($modeSpeed[0], $modeItem[1])
+	;~ endif
+
+	keyControl($lobbyExit[0], $lobbyExit[1], 'ESC')
+	keyControl($itemGuide[0], $itemGuide[1], 'Q')
+	keyControl($itemChange[0], $itemChange[1], 'W')
+	keyControl($reset[0], $reset[1], 'ESC')
+	keyControl($itemAtk[0], $itemAtk[1], 'Q')
+	keyControl($itemMagnet[0], $itemMagnet[1], 'Q')
+	keyControl($slotAtk[0], $slotAtk[1], 'W')
+	keyControl($slotNitro[0], $slotNitro[1], 'W')
+	keyControl($runLeft[0], $runLeft[1], 'LEFT')
+	keyControl($runRight[0], $runRight[1], 'RIGHT')
 endfunc
 
-func keyControl($isTask, $task, $key)
+func keyControl($isTask, $task, $key='')
 	switch $task
 		case 'lobby'
 			keyPress($isTask, $task, $key)
@@ -50,6 +58,8 @@ func keyControl($isTask, $task, $key)
 		case 'item-guide'
 			keyPress($isTask, $task, $key)
 		case 'item-change'
+			keyPress($isTask, $task, $key)
+		case 'reset'
 			keyPress($isTask, $task, $key)
 		case 'item-atk'
 			keyPress($isTask, $task, $key)
@@ -64,6 +74,7 @@ func keyControl($isTask, $task, $key)
 		case 'run-right'
 			keyPress($isTask, $task)
 	endswitch
+	return 1
 endfunc
 
 func keyPress($isTask, $task, $key='')
@@ -78,8 +89,14 @@ func keyPress($isTask, $task, $key='')
 			ControlSend($win, "", "", '{' & $key & '}')
 			ConsoleWrite($task & ' : ' & $key & @CRLF)
 		endif
-
 	endif
+endfunc
+
+func imgSearch($img)
+	local $arr[2]
+	$arr[0] = _ImageSearch('img/'&$img&'.png', 0, $x, $y, 0)
+	$arr[1] = $img
+	return $arr
 endfunc
 
 func onExit()
