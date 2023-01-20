@@ -9,20 +9,18 @@ HotKeySet("{ESC}", "onExit")
 global $win = WinGetHandle("KartDrift")
 global $x = 0, $y = 0
 
-AdlibRegister("checkImage", 225)
+AdlibRegister("checkImage", 350)
 
 while Sleep(100)
 wend
 
 func checkImage()
 	local $modeItem = imgSearch('mode-item'), $modeSpeed = imgSearch('mode-speed')
-	local $lobby = imgSearch('lobby'), $lobbyExit = imgSearch('lobby-exit')
-	local $itemGuide = imgSearch('item-guide'), $itemChange = imgSearch('item-change')
-	local $dayStart = imgSearch('day')
-
+	local $lobby = imgSearch('lobby'), $lobbyExit = imgSearch('lobby-exit'), $lobbyStay = imgSearch('lobby-stay')
+	local $guideA = imgSearch('guide-a'), $guideB = imgSearch('guide-b') ,$change = imgSearch('change')
 	local $itemAtk = imgSearch('item-atk'), $itemMagnet = imgSearch('item-magnet')
 	local $slotAtk = imgSearch('slot-atk'), $slotNitro = imgSearch('slot-nitro')
-	local $runLeft = imgSearch('run-left'), $runRight = imgSearch('run-right')
+	local $runLeft = imgSearch('run-left'), $runRight = imgSearch('run-right'), $dayStart = imgSearch('day')
 
 	;~ basic options
 	$isLobby = keyControl($lobby[0], $lobby[1], 'R')
@@ -32,8 +30,10 @@ func checkImage()
 	;~ endif
 
 	keyControl($lobbyExit[0], $lobbyExit[1], 'ESC')
-	keyControl($itemGuide[0], $itemGuide[1], 'Q')
-	keyControl($itemChange[0], $itemChange[1], 'W')
+	keyControl($lobbyStay[0], $lobbyStay[1], 'ESC')
+	keyControl($guideA[0], $guideA[1], 'Q')
+	keyControl($guideB[0], $guideB[1], 'Q')
+	keyControl($change[0], $change[1], 'W')
 	keyControl($dayStart[0], $dayStart[1], 'ESC')
 	keyControl($itemAtk[0], $itemAtk[1], 'Q')
 	keyControl($itemMagnet[0], $itemMagnet[1], 'Q')
@@ -45,9 +45,9 @@ endfunc
 
 func keyControl($isTask, $task, $key='')
 	switch $task
-		case 'lobby', 'lobby-exit'
+		case 'lobby', 'lobby-exit', 'lobby-exit'
 			keyPress($isTask, $task, $key)
-		case 'item-guide', 'item-change'
+		case 'guide-a', 'guide-b' ,'change'
 			keyPress($isTask, $task, $key)
 		case 'day'
 			keyPress($isTask, $task, $key)
