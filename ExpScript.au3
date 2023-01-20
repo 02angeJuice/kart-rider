@@ -15,20 +15,14 @@ while Sleep(100)
 wend
 
 func checkImage()
-	local $modeItem = imgSearch('mode-item')
-	local $modeSpeed = imgSearch('mode-speed')
-	local $lobby = imgSearch('lobby')
-	local $lobbyExit = imgSearch('lobby-exit')
-	local $itemGuide = imgSearch('item-guide')
-	local $itemChange = imgSearch('item-change')
-	local $reset = imgSearch('reset')
+	local $modeItem = imgSearch('mode-item'), $modeSpeed = imgSearch('mode-speed')
+	local $lobby = imgSearch('lobby'), $lobbyExit = imgSearch('lobby-exit')
+	local $itemGuide = imgSearch('item-guide'), $itemChange = imgSearch('item-change')
+	local $dayStart = imgSearch('day')
 
-	local $itemAtk = imgSearch('item-atk')
-	local $itemMagnet = imgSearch('item-magnet')
-	local $slotAtk = imgSearch('slot-atk')
-	local $slotNitro = imgSearch('slot-nitro')
-	local $runLeft = imgSearch('run-left')
-	local $runRight = imgSearch('run-right')
+	local $itemAtk = imgSearch('item-atk'), $itemMagnet = imgSearch('item-magnet')
+	local $slotAtk = imgSearch('slot-atk'), $slotNitro = imgSearch('slot-nitro')
+	local $runLeft = imgSearch('run-left'), $runRight = imgSearch('run-right')
 
 	;~ basic options
 	$isLobby = keyControl($lobby[0], $lobby[1], 'R')
@@ -40,7 +34,7 @@ func checkImage()
 	keyControl($lobbyExit[0], $lobbyExit[1], 'ESC')
 	keyControl($itemGuide[0], $itemGuide[1], 'Q')
 	keyControl($itemChange[0], $itemChange[1], 'W')
-	keyControl($reset[0], $reset[1], 'ESC')
+	keyControl($dayStart[0], $dayStart[1], 'ESC')
 	keyControl($itemAtk[0], $itemAtk[1], 'Q')
 	keyControl($itemMagnet[0], $itemMagnet[1], 'Q')
 	keyControl($slotAtk[0], $slotAtk[1], 'W')
@@ -51,27 +45,17 @@ endfunc
 
 func keyControl($isTask, $task, $key='')
 	switch $task
-		case 'lobby'
+		case 'lobby', 'lobby-exit'
 			keyPress($isTask, $task, $key)
-		case 'lobby-exit'
+		case 'item-guide', 'item-change'
 			keyPress($isTask, $task, $key)
-		case 'item-guide'
+		case 'day'
 			keyPress($isTask, $task, $key)
-		case 'item-change'
+		case 'item-atk', 'item-magnet'
 			keyPress($isTask, $task, $key)
-		case 'reset'
+		case 'slot-atk', 'slot-nitro'
 			keyPress($isTask, $task, $key)
-		case 'item-atk'
-			keyPress($isTask, $task, $key)
-		case 'item-magnet'
-			keyPress($isTask, $task, $key)
-		case 'slot-atk'
-			keyPress($isTask, $task, $key)
-		case 'slot-nitro'
-			keyPress($isTask, $task, $key)
-		case 'run-left'
-			keyPress($isTask, $task)
-		case 'run-right'
+		case 'run-left', 'run-right'
 			keyPress($isTask, $task)
 	endswitch
 	return 1
