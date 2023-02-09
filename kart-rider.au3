@@ -1,5 +1,5 @@
 #requireAdmin
-#pragma compile(Icon, icon.ico)
+#pragma compile(Icon, orange-mushrom.ico)
 #include <WinAPI.au3>
 #include <Date.au3>
 #include <Array.au3>
@@ -21,7 +21,7 @@ setWindowSize()
 $gTimer = TimerInit()
 AdlibRegister("fetchTitle", 1000)
 
-while Sleep(2000)
+while Sleep(3000)
 	if $paused == true then
 		ControlSend($hWND, "", "", "{R}")
 		ControlSend($hWND, "", "", "{Q}")
