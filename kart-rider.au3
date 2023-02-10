@@ -6,7 +6,7 @@
 #include <GUIConstantsEx.au3>
 
 global $gName = 'KartDrift', $hWND = WinGetHandle($gName)
-global $paused = false, $isGoing = false
+global $isGo = false, $titleIsGo = false
 global $gTimer, $gSec, $gMin, $gHour, $gTime
 global $count = 0
 global $arrPlay[16] = ['🔸 🔸 🔸', '🟡 🔸 🔸', '🟡 🟡 🔸', '🟡 🟡 🟡', '🔸 🔸 🔸', '🟨 🔸 🔸', '🟨 🟨 🔸', '🟨 🟨 🟨', '🔸 🔸 🔸', '⚙️ 🔸 🔸', '⚙️ ⚙️ 🔸', '⚙️ ⚙️ ⚙️', '🔸 🔸 🔸', '❤️ 🔸 🔸', '❤️ ❤️ 🔸', '❤️ ❤️ ❤️']
@@ -19,29 +19,33 @@ HotKeySet("{F5}", "setWindowSize")
 
 setWindowSize()
 $gTimer = TimerInit()
-AdlibRegister("fetchTitle", 1000)
+AdlibRegister("fetchTitle", 1000)	;~ refresh the title bar every 1 second
 
+;~ helper toggle
+func togglePlay()
+	$isGo = not $isGo
+	if $isGo <> true then
+		WinSetTitle($hWND, "", $gName&' '&'🔅 off')
+	else
+		WinSetTitle($hWND, "", $gName&' '&'🔅 on')
+	endif
+	return $isGo
+endfunc
+
+;~ INTO THE LOOOOOP
 while Sleep(3000)
-	if $paused == true then
+	;~ waiting $isGo value for run
+	if $isGo <> true then
+		$titleIsGo = false
+	else
+		$titleIsGo = true
 		ControlSend($hWND, "", "", "{R}")
 		ControlSend($hWND, "", "", "{Q}")
 		ControlSend($hWND, "", "", "{ESC}")
-		$isGoing = true
-	else
-		$isGoing = false
 	endif
-wend
+wend	;~ end main
 
-func togglePlay()
-	$paused = not $paused
-	if $paused == true then
-		WinSetTitle($hWND, "", $gName&' '&'🔅 on')
-	else
-		WinSetTitle($hWND, "", $gName&' '&'🔅 off')
-	endif
-	return $paused
-endfunc
-
+;~ the title bar has refresh
 func fetchTitle()
 	_TicksToTime(Int(TimerDiff($gTimer)), $gHour, $gMin, $gSec)
 	local $sTime = $gTime
@@ -50,7 +54,7 @@ func fetchTitle()
 	if $sTime <> $gTime then
 		local $titlAdd = $gTime
 
-		if $isGoing <> true then
+		if $titleIsGo <> true then
 			if mod($gSec, 5) == 0 then
 				WinSetTitle($hWND, "", $gName&' '&$arrIdle[1])
 			else
@@ -60,14 +64,18 @@ func fetchTitle()
 			WinSetTitle($hWND, "", $gName&' '&$arrPlay[$count])
 			$count += 1
 
-			if $count == UBound($arrPlay) then
+			if $count == UBound($arrPlay) then	;~ $count == $arrPlay.length
 				$count = 0
 			endif
-
 		endif
+
+
 	endif
 endfunc
 
+;~ == NECESSARY FILES
+
+;~ customize time format
 func timeFormat($h, $m, $s)
 	if $h == 0 and $m == 0 then
 		return StringFormat("%i", $s)
@@ -78,10 +86,11 @@ func timeFormat($h, $m, $s)
 	endif
 endfunc
 
+;~ reset window size
 func setWindowSize()
 	WinActivate($hWND)
 	$pos = WinGetPos($hWND)
-	if UBound($pos) <> 0 then
+	if UBound($pos) <> 0 then	;~ $pos.length != 0
 		$newX = (@DesktopWidth - $pos[2]) / 2
 		$newY = (@DesktopHeight - $pos[3]) / 2
 
@@ -93,6 +102,7 @@ func setWindowSize()
 	endif
 endfunc
 
+;~ exit app
 func onExit()
 	AdlibUnRegister("fetchTitle")
 	$gName = 'KartDrift'
