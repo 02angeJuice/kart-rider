@@ -11,12 +11,12 @@
 
 global $gName = 'KartDrift', $hWND = WinGetHandle($gName)
 global $isGo = false, $titleIsGo = false
-global $TIMER = TimerInit(), $DIFF = 0
 global $gTimer, $gSec, $gMin, $gHour, $gTime
 global $count = 0
 global $arrPlay[16] = ['🔸 🔸 🔸', '🟡 🔸 🔸', '🟡 🟡 🔸', '🟡 🟡 🟡', '🔸 🔸 🔸', '🟨 🔸 🔸', '🟨 🟨 🔸', '🟨 🟨 🟨', '🔸 🔸 🔸', '⚙️ 🔸 🔸', '⚙️ ⚙️ 🔸', '⚙️ ⚙️ ⚙️', '🔸 🔸 🔸', '❤️ 🔸 🔸', '❤️ ❤️ 🔸', '❤️ ❤️ ❤️']
 global $arrIdle[3] = ['🟡  HOME : play & pause ', '🟡  END : exit ', '🟡  F5 : resize window ']
-global $coutMushroom = 0
+global $keys[3] = ["R", "ESC", "Q"]
+global $gKeys = 0
 
 Opt('MustDeclareVars', 1)
 Opt('TrayAutoPause', 0)
@@ -33,18 +33,6 @@ trayAnimate('gear','on', 40 )
 $gTimer = TimerInit()
 AdlibRegister("fetchTitle", 1000)	;~ refresh the title bar every 1 second
 
-;~ helper toggle
-func togglePlay()
-	$isGo = not $isGo
-	if $isGo <> true then
-		WinSetTitle($hWND, "", $gName&' '&'🔅 off')
-	else
-		WinSetTitle($hWND, "", $gName&' '&'🔅 on')
-	endif
-	return $isGo
-endfunc
-
-
 ;~ INTO THE LOOOOOP
 while Sleep(1000)
 	;~ waiting $isGo value for run
@@ -55,11 +43,24 @@ while Sleep(1000)
 	else
 		_Animate_Start("", 1)
 		$titleIsGo = true
-		ControlSend($hWND, "", "", "{R}")
-		ControlSend($hWND, "", "", "{Q}")
-		ControlSend($hWND, "", "", "{ESC}")
+
+		ControlSend($hWND, "", "", '{'&$keys[$gKeys]&'}')
+		$gKeys += 1
 	endif
+
+	if $gKeys > UBound($keys) - 1 then $gKeys = 0
 wend	;~ end main
+
+;~ helper toggle
+func togglePlay()
+	$isGo = not $isGo
+	if $isGo <> true then
+		WinSetTitle($hWND, "", $gName&' '&'🔅 off')
+	else
+		WinSetTitle($hWND, "", $gName&' '&'🔅 on')
+	endif
+	return $isGo
+endfunc
 
 func trayAnimate($name, $order, $frames=0)
 	local $n = '\' & $name & '\' & $name & '-'
