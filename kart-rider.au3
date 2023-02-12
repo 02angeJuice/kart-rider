@@ -28,7 +28,7 @@ HotKeySet("{HOME}", "togglePlay")
 HotKeySet("{F5}", "setWindowSize")
 
 setWindowSize()
-trayAnimate('gear','on', 40 )
+trayAnimate('gear','on', 40)
 
 $gTimer = TimerInit()
 AdlibRegister("fetchTitle", 1000)	;~ refresh the title bar every 1 second
