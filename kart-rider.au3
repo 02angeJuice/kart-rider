@@ -34,7 +34,7 @@ $gTimer = TimerInit()
 AdlibRegister("fetchTitle", 1000)	;~ refresh the title bar every 1 second
 
 ;~ INTO THE LOOOOOP
-while Sleep(1000)
+while Sleep(1500)
 	;~ waiting $isGo value for run
 	if $isGo <> true then
 		TraySetIcon("orange-mushroom.ico")
